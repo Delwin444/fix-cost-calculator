@@ -28,9 +28,6 @@ export default new Vuex.Store({
     updateEnableAnimations (state, enableAnimations) {
       state.enableAnimations = enableAnimations
     },
-    updatePositions (state, positions) {
-      state.positions = positions
-    },
     addPosition (state, position) {
       state.positions.push(position)
     },
