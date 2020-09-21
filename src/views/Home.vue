@@ -1,18 +1,36 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Controls/>
+    <div class="calculator">
+      <Positions/>
+      <Result/>
+    </div>
+    <Graph/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Controls from '@/components/calculator/Controls'
+import Positions from '@/components/calculator/Positions'
+import Result from '@/components/calculator/Result'
+import Graph from '@/components/calculator/Graph'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    Result,
+    Positions,
+    Controls,
+    Graph
   }
 }
 </script>
+
+<style scoped lang="scss">
+.calculator {
+  max-width: 1280px;
+  padding: $grid-size * 2;
+  display: flex;
+  justify-content: space-around;
+}
+</style>
