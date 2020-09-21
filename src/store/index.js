@@ -20,6 +20,11 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    initializeCalculator (state) {
+      if (localStorage.getItem('calculator')) {
+        state.positions = JSON.parse(localStorage.getItem('calculator'))
+      }
+    },
     updateEnableAnimations (state, enableAnimations) {
       state.enableAnimations = enableAnimations
     },

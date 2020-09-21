@@ -30,16 +30,16 @@ export default {
   name: 'Positions',
   components: { Position, Draggable },
   computed: {
-    positions: {
-      get () {
-        return this.$store.state.positions
-      },
-      set (value) {
-        this.$store.commit('updatePositions', value)
-      }
+    positions () {
+      return this.$store.state.positions
     },
     enableAnimations () {
       return this.$store.state.enableAnimations
+    }
+  },
+  watch: {
+    positions: function (newPositions) {
+      localStorage.setItem('calculator', JSON.stringify(newPositions))
     }
   },
   methods: {

@@ -36,6 +36,11 @@ export default {
       return this.$store.state.enableAnimations
     }
   },
+  beforeMount () {
+    if (this.result) {
+      this.tweenedResult = parseFloat(this.result)
+    }
+  },
   watch: {
     result: function (newValue) {
       if (this.enableAnimations) {
