@@ -3,7 +3,7 @@
     <Draggable v-model="positions" handle=".handle">
       <template v-if="enableAnimations">
         <transition-group name="list" tag="ul">
-          <li v-for="(position, index) in positions" :key="index">
+          <li v-for="position in positions" :key="position">
             <Position :data="position"/>
           </li>
         </transition-group>
