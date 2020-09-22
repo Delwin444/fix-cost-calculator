@@ -13,6 +13,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f git@github.com:Delwin444/fix-cost-calculator.git master:dev
+git push -f git@github.com:Delwin444/fix-cost-calculator.git dev:gh-pages
 
 cd -
