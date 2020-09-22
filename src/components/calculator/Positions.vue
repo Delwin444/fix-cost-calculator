@@ -30,8 +30,13 @@ export default {
   name: 'Positions',
   components: { Position, Draggable },
   computed: {
-    positions () {
-      return this.$store.state.positions
+    positions: {
+      get () {
+        return this.$store.state.positions
+      },
+      set (value) {
+        this.$store.commit('updatePositions', value)
+      }
     },
     enableAnimations () {
       return this.$store.state.enableAnimations
