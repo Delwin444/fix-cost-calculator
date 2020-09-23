@@ -1,20 +1,11 @@
 <template>
   <section class="box positions">
     <Draggable v-model="positions" handle=".handle">
-      <template v-if="enableAnimations">
-        <transition-group name="list" tag="ul">
-          <li v-for="position in positions" :key="position">
-            <Position :data="position"/>
-          </li>
-        </transition-group>
-      </template>
-      <template v-else>
-        <ul>
-          <li v-for="(position, index) in positions" :key="index">
-            <Position :data="position"/>
-          </li>
-        </ul>
-      </template>
+      <transition-group :name="transitionType" tag="ul">
+        <li v-for="position in positions" :key="position">
+          <Position :data="position"/>
+        </li>
+      </transition-group>
     </Draggable>
     <div>
       <button class="add-position" @click="addPosition">Add Position</button>
@@ -38,8 +29,8 @@ export default {
         this.$store.commit('updatePositions', value)
       }
     },
-    enableAnimations () {
-      return this.$store.state.enableAnimations
+    transitionType () {
+      return this.$store.state.enableAnimations ? 'list' : 'none'
     }
   },
   watch: {
