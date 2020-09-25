@@ -1,15 +1,22 @@
 <template>
   <section class="box result">
-    <ul>
-      <li v-if="budget > 0">
-        Budget: {{ budget }}
-      </li>
-      <li v-for="position in positions" :key="position.id">
-        {{ position.name }} -{{ position.cost }}
-      </li>
-    </ul>
-    <span v-text="animatedResult" v-if="enableAnimations"></span>
-    <span v-text="result" v-else></span>
+    <table>
+      <tr v-if="budget > 0">
+        <th>Budget</th>
+        <th>{{ budget | formatPrice }}</th>
+      </tr>
+      <tr v-for="position in positions" :key="position.id">
+        <td>{{ position.name }}</td>
+        <td>-{{ position.cost | formatPrice }}</td>
+      </tr>
+      <tr class="result" v-bind:class="{'positive': result > 0, 'negative': result <0}">
+        <td>Result</td>
+        <td>
+          <span v-text="$options.filters.formatPrice(animatedResult)" v-if="enableAnimations"></span>
+          <span v-text="$options.filters.formatPrice(result)" v-else></span>
+        </td>
+      </tr>
+    </table>
   </section>
 </template>
 
@@ -34,7 +41,7 @@ export default {
       return this.$store.getters.result
     },
     animatedResult () {
-      return this.enableAnimations ? this.tweenedResult.toFixed(2) : 0
+      return this.enableAnimations ? this.tweenedResult : 0
     },
     enableAnimations () {
       return this.$store.state.enableAnimations
@@ -59,5 +66,63 @@ export default {
 </script>
 
 <style scoped lang="scss">
+table {
+  border-collapse: collapse;
 
+  tr {
+    &:last-child {
+      td,
+      th {
+        border-bottom-width: 0;
+      }
+    }
+
+    &.result {
+      font-weight: 800;
+      font-size: 1.2em;
+
+      td {
+        padding-bottom: 3px;
+        border-bottom: 3px double $dark-shade;
+        transition: color .5s ease-in-out, border-bottom-color .5s ease-in-out;
+      }
+
+      &.positive {
+        td {
+          border-bottom-color: green;
+
+          &:nth-child(2) {
+            color: green;
+          }
+        }
+      }
+
+      &.negative {
+        td {
+          border-bottom-color: red;
+
+          &:nth-child(2) {
+            color: red;
+          }
+        }
+      }
+    }
+  }
+
+  td,
+  th {
+    border-bottom: 1px solid $dark-shade;
+    padding-top: $grid-size / 2;
+    padding-bottom: $grid-size / 2;
+
+    &:nth-child(1) {
+      text-align: left;
+    }
+
+    &:nth-child(2) {
+      padding-left: $grid-size;
+      text-align: right;
+    }
+  }
+}
 </style>
