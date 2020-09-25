@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     positions: [{}],
-    enableAnimations: true
+    enableAnimations: true,
+    budget: 0
   },
   getters: {
     validPositions: state => {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     updatePosition (state, position) {
       Vue.set(state.positions, state.positions.indexOf(position), position)
+    },
+    updateBudget (state, budget) {
+      state.budget = budget
     }
   },
   actions: {},

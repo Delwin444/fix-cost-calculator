@@ -1,7 +1,13 @@
 <template>
   <section class="box">
-    <label for="enable-animations">Enable Animations</label>
-    <input id="enable-animations" type="checkbox" value="true" v-model="enableAnimations"/>
+    <div>
+      <label for="enable-animations">Enable Animations</label>
+      <input id="enable-animations" type="checkbox" value="true" v-model="enableAnimations"/>
+    </div>
+    <div>
+      <label for="budget">Budget</label>
+      <input id="budget" type="number" step=".01" v-model="budget" placeholder="Budget"/>
+    </div>
   </section>
 </template>
 
@@ -19,6 +25,14 @@ export default {
       },
       set (value) {
         this.$store.commit('updateEnableAnimations', value)
+      }
+    },
+    budget: {
+      get () {
+        return this.$store.state.budget
+      },
+      set (value) {
+        this.$store.commit('updateBudget', value)
       }
     }
   }
