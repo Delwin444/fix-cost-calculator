@@ -1,8 +1,11 @@
 <template>
   <section class="box result">
     <ul>
+      <li v-if="budget > 0">
+        Budget: {{ budget }}
+      </li>
       <li v-for="position in positions" :key="position.id">
-        {{ position.name }} {{ position.cost }}
+        {{ position.name }} -{{ position.cost }}
       </li>
     </ul>
     <span v-text="animatedResult" v-if="enableAnimations"></span>
@@ -24,8 +27,11 @@ export default {
     positions () {
       return this.$store.getters.validPositions
     },
+    budget () {
+      return this.$store.state.budget
+    },
     result () {
-      return this.$store.getters.validPositions
+      return this.budget - this.$store.getters.validPositions
         .reduce((accumulator, currentValue) => accumulator - -currentValue.cost, 0)
         .toFixed(2)
     },
