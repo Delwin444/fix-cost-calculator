@@ -14,10 +14,24 @@ export default new Vuex.Store({
       return state.positions
         .filter(position => !isNaN(position.cost))
     },
-    chartData: state => {
-      return state.positions
-        .filter(position => !isNaN(position.cost))
+    result: (state, getters) => {
+      return state.budget - getters.validPositions
+        .reduce((accumulator, currentValue) => accumulator - -currentValue.cost, 0)
+        .toFixed(2)
+    },
+    availableBudget: (state, getters) => {
+      return state.budget - getters.validPositions
+        .reduce((accumulator, currentValue) => accumulator - -currentValue.cost, 0)
+        .toFixed(2)
+    },
+    chartData: (state, getters) => {
+      const positionChartData = getters.validPositions
         .map(position => [position.name, parseFloat(position.cost)])
+      if (state.budget > 0 && getters.availableBudget >= 0) {
+        return [['Left Budget', getters.availableBudget]].concat(positionChartData)
+      } else {
+        return positionChartData
+      }
     }
   },
   mutations: {

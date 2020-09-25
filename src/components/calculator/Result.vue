@@ -31,9 +31,7 @@ export default {
       return this.$store.state.budget
     },
     result () {
-      return this.budget - this.$store.getters.validPositions
-        .reduce((accumulator, currentValue) => accumulator - -currentValue.cost, 0)
-        .toFixed(2)
+      return this.$store.getters.result
     },
     animatedResult () {
       return this.enableAnimations ? this.tweenedResult.toFixed(2) : 0
