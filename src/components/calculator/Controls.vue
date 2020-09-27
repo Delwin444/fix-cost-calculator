@@ -1,5 +1,5 @@
 <template>
-  <section class="box">
+  <section class="controls">
     <div>
       <label for="enable-animations">Enable Animations</label>
       <input id="enable-animations" type="checkbox" value="true" v-model="enableAnimations"/>
@@ -14,10 +14,6 @@
 <script>
 export default {
   name: 'Controls',
-  data: function () {
-    return {
-    }
-  },
   computed: {
     enableAnimations: {
       get () {
@@ -39,6 +35,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import 'componentStyles/box.scss';
 
+.controls {
+  @extend .box;
+  grid-area: controls;
+}
 </style>

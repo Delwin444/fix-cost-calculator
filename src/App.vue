@@ -22,11 +22,6 @@ body {
   color: #2c3e50;
 }
 
-.box {
-  background: $light-shade;
-  padding: $grid-size;
-}
-
 ul {
   padding: 0;
   list-style: none;

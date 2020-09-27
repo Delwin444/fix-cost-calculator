@@ -1,5 +1,5 @@
 <template>
-  <section class="box graph">
+  <section class="graph">
     <GChart
       type="PieChart"
       :data="chartData"
@@ -19,7 +19,8 @@ export default {
         title: 'Costs',
         is3D: true,
         width: 700,
-        height: 400
+        height: 400,
+        backgroundColor: 'transparent'
       }
     }
   },
@@ -44,4 +45,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "componentStyles/box.scss";
+
+.graph {
+  @extend .box;
+  grid-area: graph;
+}
 </style>

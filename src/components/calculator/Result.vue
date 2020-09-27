@@ -1,5 +1,5 @@
 <template>
-  <section class="box result">
+  <section class="result">
     <table>
       <tr v-if="budget > 0">
         <th>Budget</th>
@@ -9,7 +9,7 @@
         <td>{{ position.name }}</td>
         <td>-{{ position.cost | formatPrice }}</td>
       </tr>
-      <tr class="result" v-bind:class="{'positive': result > 0, 'negative': result <0}">
+      <tr class="calc-result" v-bind:class="{'positive': result > 0, 'negative': result <0}">
         <td>Result</td>
         <td>
           <span v-text="$options.filters.formatPrice(animatedResult)" v-if="enableAnimations"></span>
@@ -66,6 +66,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "componentStyles/box.scss";
+
+.result {
+  @extend .box;
+  grid-area: result;
+  display: flex;
+  justify-content: center;
+}
 table {
   border-collapse: collapse;
 
@@ -77,7 +85,7 @@ table {
       }
     }
 
-    &.result {
+    &.calc-result {
       font-weight: 800;
       font-size: 1.2em;
 

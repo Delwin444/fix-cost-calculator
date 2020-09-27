@@ -1,5 +1,5 @@
 <template>
-  <section class="box positions">
+  <section class="positions">
     <Draggable v-model="positions" handle=".handle">
       <transition-group :name="transitionType" tag="ul">
         <li v-for="position in positions" :key="position">
@@ -19,7 +19,10 @@ import Draggable from 'vuedraggable'
 
 export default {
   name: 'Positions',
-  components: { Position, Draggable },
+  components: {
+    Position,
+    Draggable
+  },
   computed: {
     positions: {
       get () {
@@ -47,6 +50,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "componentStyles/box.scss";
+
+.positions {
+  @extend .box;
+  grid-area: positions;
+}
+
 li {
   display: flex;
   justify-content: space-between;

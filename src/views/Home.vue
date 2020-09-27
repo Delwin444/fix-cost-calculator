@@ -1,36 +1,19 @@
 <template>
   <div class="home">
-    <Controls/>
-    <div class="calculator">
-      <Positions/>
-      <Result/>
-    </div>
-    <Graph/>
+    <Calculator/>
   </div>
 </template>
 
 <script>
-import Controls from '@/components/calculator/Controls'
-import Positions from '@/components/calculator/Positions'
-import Result from '@/components/calculator/Result'
-import Graph from '@/components/calculator/Graph'
+import Calculator from '@/components/Calculator'
 
 export default {
   name: 'Home',
   components: {
-    Result,
-    Positions,
-    Controls,
-    Graph
+    Calculator
   }
 }
 </script>
 
 <style scoped lang="scss">
-.calculator {
-  max-width: 1280px;
-  padding: $grid-size * 2;
-  display: flex;
-  justify-content: space-around;
-}
 </style>
