@@ -39,6 +39,9 @@ export default new Vuex.Store({
       if (localStorage.getItem('calculator')) {
         state.positions = JSON.parse(localStorage.getItem('calculator'))
       }
+      if (localStorage.getItem('budget')) {
+        state.budget = JSON.parse(localStorage.getItem('budget'))
+      }
     },
     updateEnableAnimations (state, enableAnimations) {
       state.enableAnimations = enableAnimations
@@ -57,6 +60,7 @@ export default new Vuex.Store({
     },
     updateBudget (state, budget) {
       state.budget = budget
+      localStorage.setItem('budget', JSON.stringify(budget))
     }
   },
   actions: {},
