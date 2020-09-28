@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     positions: [{}],
+    positionGroups: [],
     enableAnimations: true,
     budget: 0
   },
@@ -32,6 +33,9 @@ export default new Vuex.Store({
       } else {
         return positionChartData
       }
+    },
+    getPositionsByGroups: (state) => (targetGroup) => {
+      return state.positionGroups.find(group => group === targetGroup).positions
     }
   },
   mutations: {
@@ -42,21 +46,52 @@ export default new Vuex.Store({
       if (localStorage.getItem('budget')) {
         state.budget = JSON.parse(localStorage.getItem('budget'))
       }
+      if (localStorage.getItem('positionGroups')) {
+        state.positionGroups = JSON.parse(localStorage.getItem('positionGroups'))
+      }
     },
     updateEnableAnimations (state, enableAnimations) {
       state.enableAnimations = enableAnimations
     },
-    updatePositions (state, positions) {
-      state.positions = positions
+    updatePositions (state, data) {
+      if (data.group) {
+        state.positionGroups.find(group => group === data.group).positions = data.positions
+      } else {
+        state.positions = data.positions
+      }
     },
-    addPosition (state, position) {
+    addPositionWithoutGroup (state, position) {
       state.positions.push(position)
     },
-    removePosition (state, position) {
-      state.positions.splice(state.positions.indexOf(position), 1)
+    addPositionToGroup (state, targetGroup) {
+      state.positionGroups.find(group => group === targetGroup).positions.push({})
+    },
+    removePosition (state, data) {
+      let positions
+      if (data.group) {
+        positions = state.positionGroups.find(group => group === data.group).positions
+      } else {
+        positions = state.positions
+      }
+      positions.splice(state.positions.indexOf(data.position), 1)
+    },
+    removePositionGroup (state, positionGroup) {
+      state.positionGroups.splice(state.positionGroups.indexOf(positionGroup), 1)
     },
     updatePosition (state, position) {
       Vue.set(state.positions, state.positions.indexOf(position), position)
+    },
+    updatePositionGroups (state, positionGroups) {
+      state.positionGroups = positionGroups
+    },
+    updatePositionGroup (state, positionGroup) {
+      Vue.set(state.positionGroups, state.positionGroups.indexOf(positionGroup), positionGroup)
+    },
+    addPositionGroup (state) {
+      state.positionGroups.push({
+        name: '',
+        positions: []
+      })
     },
     updateBudget (state, budget) {
       state.budget = budget

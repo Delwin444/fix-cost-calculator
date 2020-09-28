@@ -3,11 +3,12 @@
     <Draggable v-model="positions"
                handle=".handle"
                v-bind="dragOptions"
+               group="positions"
                @start="drag = true"
                @end="drag = false">
       <transition-group :name="transitionType" tag="ul">
         <li v-for="position in positions" :key="position">
-          <Position :data="position"/>
+          <Position :data="position" :group="group"/>
         </li>
       </transition-group>
     </Draggable>
@@ -27,6 +28,7 @@ export default {
     Position,
     Draggable
   },
+  props: ['group'],
   data () {
     return {
       drag: false
@@ -35,10 +37,15 @@ export default {
   computed: {
     positions: {
       get () {
-        return this.$store.state.positions
+        return this.group
+          ? this.$store.getters.getPositionsByGroups(this.group)
+          : this.$store.state.positions
       },
       set (value) {
-        this.$store.commit('updatePositions', value)
+        this.$store.commit('updatePositions', {
+          positions: value,
+          group: this.group
+        })
       }
     },
     transitionType () {
@@ -52,12 +59,20 @@ export default {
   },
   watch: {
     positions: function (newPositions) {
-      localStorage.setItem('calculator', JSON.stringify(newPositions))
+      if (this.group) {
+        // @TODO
+      } else {
+        localStorage.setItem('calculator', JSON.stringify(newPositions))
+      }
     }
   },
   methods: {
     addPosition: function () {
-      this.$store.commit('addPosition', {})
+      if (this.group) {
+        this.$store.commit('addPositionToGroup', this.group)
+      } else {
+        this.$store.commit('addPositionWithoutGroup', {})
+      }
     }
   }
 }
@@ -65,11 +80,6 @@ export default {
 
 <style scoped lang="scss">
 @import "componentStyles/box.scss";
-
-.positions {
-  @extend .box;
-  grid-area: positions;
-}
 
 li {
   display: flex;

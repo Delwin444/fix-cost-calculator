@@ -11,7 +11,8 @@
 export default {
   name: 'Position',
   props: {
-    data: Object
+    data: Object,
+    group: undefined
   },
   data: () => {
     return {
@@ -25,7 +26,10 @@ export default {
   },
   methods: {
     removePosition: function (position) {
-      this.$store.commit('removePosition', position)
+      this.$store.commit('removePosition', {
+        position: position,
+        group: this.group
+      })
     },
     updateName: function (e, position) {
       position.name = e.target.value
@@ -40,19 +44,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .handle {
-    display: inline-block;
-    background: $dark-shade;
-    width: 20px;
-    height: 100%;
-    cursor: move;
-  }
-  .position {
-    display: flex;
-    margin-left: -$grid-size / 2;
+.handle {
+  display: inline-block;
+  background: $dark-shade;
+  width: 20px;
+  height: 100%;
+  cursor: move;
+}
 
-    > * {
-      margin-left: $grid-size / 2;
-    }
+.position {
+  display: flex;
+  margin-left: -$grid-size / 2;
+
+  > * {
+    margin-left: $grid-size / 2;
   }
+}
 </style>
