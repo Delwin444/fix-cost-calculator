@@ -1,6 +1,10 @@
 <template>
   <section class="positions">
-    <Draggable v-model="positions" handle=".handle">
+    <Draggable v-model="positions"
+               handle=".handle"
+               v-bind="dragOptions"
+               @start="drag = true"
+               @end="drag = false">
       <transition-group :name="transitionType" tag="ul">
         <li v-for="position in positions" :key="position">
           <Position :data="position"/>
@@ -23,6 +27,11 @@ export default {
     Position,
     Draggable
   },
+  data () {
+    return {
+      drag: false
+    }
+  },
   computed: {
     positions: {
       get () {
@@ -33,7 +42,12 @@ export default {
       }
     },
     transitionType () {
-      return this.$store.state.enableAnimations ? 'list' : 'none'
+      return this.$store.state.enableAnimations && this.drag ? 'list' : null
+    },
+    dragOptions () {
+      return {
+        animation: this.$store.state.enableAnimations ? 200 : 0
+      }
     }
   },
   watch: {
@@ -71,6 +85,14 @@ li {
     &:first-child {
       margin-left: 0;
     }
+  }
+
+  .list-move {
+    transition: transform 0.5s;
+  }
+
+  .no-move {
+    transition: transform 0s;
   }
 
   &.list-enter-active,
