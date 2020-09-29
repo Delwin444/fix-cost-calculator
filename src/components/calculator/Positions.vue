@@ -1,14 +1,14 @@
 <template>
   <section class="positions">
-    <Draggable v-model="positions"
+    <Draggable v-model=groupedPositions
                handle=".handle"
                v-bind="dragOptions"
                group="positions"
                @start="drag = true"
                @end="drag = false">
       <transition-group :name="transitionType" tag="ul">
-        <li v-for="position in positions" :key="position">
-          <Position :data="position" :group="group"/>
+        <li v-for="position in groupedPositions" :key="position.id">
+          <Position :data="position"/>
         </li>
       </transition-group>
     </Draggable>
@@ -35,17 +35,23 @@ export default {
     }
   },
   computed: {
-    positions: {
+    groupedPositions: {
       get () {
-        return this.group
-          ? this.$store.getters.getPositionsByGroups(this.group)
-          : this.$store.state.positions
+        return this.getPositionsByGroup(this.group.id)
+      },
+      set (positions) {
+        this.$store.dispatch('positions/updateGroupedPositions', {
+          positions: positions,
+          groupId: this.group.id
+        })
+      }
+    },
+    positionGroups: {
+      get () {
+        return this.$store.state.positionGroups
       },
       set (value) {
-        this.$store.commit('updatePositions', {
-          positions: value,
-          group: this.group
-        })
+        this.$store.commit('updatePositionGroups', value)
       }
     },
     transitionType () {
@@ -57,22 +63,14 @@ export default {
       }
     }
   },
-  watch: {
-    positions: function (newPositions) {
-      if (this.group) {
-        // @TODO
-      } else {
-        localStorage.setItem('calculator', JSON.stringify(newPositions))
-      }
-    }
-  },
   methods: {
-    addPosition: function () {
-      if (this.group) {
-        this.$store.commit('addPositionToGroup', this.group)
-      } else {
-        this.$store.commit('addPositionWithoutGroup', {})
-      }
+    addPosition () {
+      this.$store.commit('positions/add', {
+        group: this.group.id
+      })
+    },
+    getPositionsByGroup () {
+      return this.$store.getters['positions/byGroup'](this.group.id)
     }
   }
 }

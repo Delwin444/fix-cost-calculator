@@ -1,48 +1,42 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { positions } from './calculator/positions'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    positions: [{}],
-    positionGroups: [],
+    positionGroups: [{
+      name: 'default',
+      id: 'default'
+    }],
     enableAnimations: true,
     budget: 0
   },
   getters: {
-    validPositions: state => {
-      return state.positions
-        .filter(position => !isNaN(position.cost))
-    },
     result: (state, getters) => {
-      return state.budget - getters.validPositions
+      return state.budget - getters['positions/valid']
         .reduce((accumulator, currentValue) => accumulator - -currentValue.cost, 0)
         .toFixed(2)
     },
     availableBudget: (state, getters) => {
-      return state.budget - getters.validPositions
+      return state.budget - getters['positions/valid']
         .reduce((accumulator, currentValue) => accumulator - -currentValue.cost, 0)
         .toFixed(2)
     },
     chartData: (state, getters) => {
-      const positionChartData = getters.validPositions
+      const positionChartData = getters['positions/valid']
         .map(position => [position.name, parseFloat(position.cost)])
       if (state.budget > 0 && getters.availableBudget >= 0) {
         return [['Left Budget', getters.availableBudget]].concat(positionChartData)
       } else {
         return positionChartData
       }
-    },
-    getPositionsByGroups: (state) => (targetGroup) => {
-      return state.positionGroups.find(group => group === targetGroup).positions
     }
   },
   mutations: {
     initializeCalculator (state) {
-      if (localStorage.getItem('calculator')) {
-        state.positions = JSON.parse(localStorage.getItem('calculator'))
-      }
+      this.commit('positions/initialize')
       if (localStorage.getItem('budget')) {
         state.budget = JSON.parse(localStorage.getItem('budget'))
       }
@@ -53,33 +47,8 @@ export default new Vuex.Store({
     updateEnableAnimations (state, enableAnimations) {
       state.enableAnimations = enableAnimations
     },
-    updatePositions (state, data) {
-      if (data.group) {
-        state.positionGroups.find(group => group === data.group).positions = data.positions
-      } else {
-        state.positions = data.positions
-      }
-    },
-    addPositionWithoutGroup (state, position) {
-      state.positions.push(position)
-    },
-    addPositionToGroup (state, targetGroup) {
-      state.positionGroups.find(group => group === targetGroup).positions.push({})
-    },
-    removePosition (state, data) {
-      let positions
-      if (data.group) {
-        positions = state.positionGroups.find(group => group === data.group).positions
-      } else {
-        positions = state.positions
-      }
-      positions.splice(state.positions.indexOf(data.position), 1)
-    },
     removePositionGroup (state, positionGroup) {
       state.positionGroups.splice(state.positionGroups.indexOf(positionGroup), 1)
-    },
-    updatePosition (state, position) {
-      Vue.set(state.positions, state.positions.indexOf(position), position)
     },
     updatePositionGroups (state, positionGroups) {
       state.positionGroups = positionGroups
@@ -89,8 +58,8 @@ export default new Vuex.Store({
     },
     addPositionGroup (state) {
       state.positionGroups.push({
-        name: '',
-        positions: []
+        id: Math.random().toString(36).substr(2, 9),
+        name: ''
       })
     },
     updateBudget (state, budget) {
@@ -99,5 +68,7 @@ export default new Vuex.Store({
     }
   },
   actions: {},
-  modules: {}
+  modules: {
+    positions
+  }
 })

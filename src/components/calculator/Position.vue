@@ -11,33 +11,24 @@
 export default {
   name: 'Position',
   props: {
-    data: Object,
-    group: undefined
+    data: Object
   },
   data: () => {
     return {
       tweenedCost: 0
     }
   },
-  computed: {
-    positions () {
-      return this.$store.state.positions
-    }
-  },
   methods: {
     removePosition: function (position) {
-      this.$store.commit('removePosition', {
-        position: position,
-        group: this.group
-      })
+      this.$store.commit('positions/remove', position)
     },
     updateName: function (e, position) {
       position.name = e.target.value
-      this.$store.commit('updatePosition', position)
+      this.$store.commit('positions/updateSingle', position)
     },
     updateCost: function (e, position) {
       position.cost = e.target.value
-      this.$store.commit('updatePosition', position)
+      this.$store.commit('positions/updateSingle', position)
     }
   }
 }

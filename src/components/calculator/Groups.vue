@@ -1,8 +1,10 @@
 <template>
   <section class="groups">
-    <div v-for="group in positionGroups" :key="group">
-      <input :value="group.name" @input="updateGroupName($event, group)"/>
-      <button @click="removePositionGroup(group)">Remove Group</button>
+    <div v-for="group in positionGroups" :key="group.id">
+      <template v-if="group.id !== 'default'">
+        <input :value="group.name" @input="updateGroupName($event, group)"/>
+        <button @click="removePositionGroup(group)">Remove Group</button>
+      </template>
       <Positions :group="group"/>
     </div>
     <button @click="addPositionGroup">Add Group</button>
@@ -27,17 +29,9 @@ export default {
       }
     }
   },
-  watch: {
-    positionGroups: function (newPositionGroups) {
-      localStorage.setItem('positionGroups', JSON.stringify(newPositionGroups))
-    }
-  },
   methods: {
     addPositionGroup () {
       this.$store.commit('addPositionGroup')
-    },
-    getPositions (groupName) {
-      return this.$store.getters.getPositionsByGroups(groupName)
     },
     updateGroupName (e, group) {
       group.name = e.target.value

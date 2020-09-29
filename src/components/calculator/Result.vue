@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     positions () {
-      return this.$store.getters.validPositions
+      return this.$store.getters['positions/valid']
     },
     budget () {
       return this.$store.state.budget
