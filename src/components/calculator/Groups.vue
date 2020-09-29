@@ -29,6 +29,18 @@ export default {
       }
     }
   },
+  watch: {
+    positionGroups: function (newPositionGroups) {
+      localStorage.setItem('positionGroups', JSON.stringify(newPositionGroups))
+    }
+  },
+  beforeMount () {
+    while (this.$store.state.positions.items.length < 3) {
+      this.$store.commit('positions/add', {
+        group: 'default'
+      })
+    }
+  },
   methods: {
     addPositionGroup () {
       this.$store.commit('groups/add')
