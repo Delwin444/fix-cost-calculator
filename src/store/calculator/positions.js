@@ -35,8 +35,8 @@ export const positions = {
     remove (state, position) {
       state.items.splice(state.items.indexOf(position), 1)
     },
-    removeByGroup (state, group) {
-      state.items = state.items.filter(position => position.group !== group)
+    removeByGroup (state, groupId) {
+      state.items = state.items.filter(position => position.group !== groupId)
     }
   },
   actions: {

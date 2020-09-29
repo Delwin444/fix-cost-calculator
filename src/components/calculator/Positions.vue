@@ -46,14 +46,6 @@ export default {
         })
       }
     },
-    positionGroups: {
-      get () {
-        return this.$store.state.positionGroups
-      },
-      set (value) {
-        this.$store.commit('updatePositionGroups', value)
-      }
-    },
     transitionType () {
       return this.$store.state.enableAnimations && this.drag ? 'list' : null
     },

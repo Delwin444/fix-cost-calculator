@@ -1,15 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { positions } from './calculator/positions'
+import { groups } from './calculator/groups'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    positionGroups: [{
-      name: 'default',
-      id: 'default'
-    }],
     enableAnimations: true,
     budget: 0
   },
@@ -35,40 +32,26 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    initializeCalculator (state) {
-      this.commit('positions/initialize')
-      if (localStorage.getItem('budget')) {
-        state.budget = JSON.parse(localStorage.getItem('budget'))
-      }
-      if (localStorage.getItem('positionGroups')) {
-        state.positionGroups = JSON.parse(localStorage.getItem('positionGroups'))
-      }
-    },
     updateEnableAnimations (state, enableAnimations) {
       state.enableAnimations = enableAnimations
-    },
-    removePositionGroup (state, positionGroup) {
-      state.positionGroups.splice(state.positionGroups.indexOf(positionGroup), 1)
-    },
-    updatePositionGroups (state, positionGroups) {
-      state.positionGroups = positionGroups
-    },
-    updatePositionGroup (state, positionGroup) {
-      Vue.set(state.positionGroups, state.positionGroups.indexOf(positionGroup), positionGroup)
-    },
-    addPositionGroup (state) {
-      state.positionGroups.push({
-        id: Math.random().toString(36).substr(2, 9),
-        name: ''
-      })
     },
     updateBudget (state, budget) {
       state.budget = budget
       localStorage.setItem('budget', JSON.stringify(budget))
     }
   },
-  actions: {},
+  actions: {
+    initializeCalculator ({ commit, state }) {
+      commit('positions/initialize')
+      commit('groups/initialize')
+
+      if (localStorage.getItem('budget')) {
+        state.budget = JSON.parse(localStorage.getItem('budget'))
+      }
+    }
+  },
   modules: {
-    positions
+    positions,
+    groups
   }
 })

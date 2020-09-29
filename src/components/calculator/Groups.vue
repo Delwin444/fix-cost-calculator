@@ -22,23 +22,24 @@ export default {
   computed: {
     positionGroups: {
       get () {
-        return this.$store.state.positionGroups
+        return this.$store.state.groups.items
       },
       set (value) {
-        this.$store.commit('updatePositionGroups', value)
+        this.$store.commit('groups/update', value)
       }
     }
   },
   methods: {
     addPositionGroup () {
-      this.$store.commit('addPositionGroup')
+      this.$store.commit('groups/add')
     },
     updateGroupName (e, group) {
       group.name = e.target.value
-      this.$store.commit('updatePositionGroup', group)
+      this.$store.commit('groups/updateSingle', group)
     },
     removePositionGroup (positionGroup) {
-      this.$store.commit('removePositionGroup', positionGroup)
+      this.$store.commit('groups/remove', positionGroup)
+      this.$store.commit('positions/removeByGroup', positionGroup.id)
     }
   }
 }

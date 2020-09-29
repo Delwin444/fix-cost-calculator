@@ -22,7 +22,7 @@ new Vue({
   router,
   store,
   beforeCreate () {
-    this.$store.commit('initializeCalculator')
+    this.$store.dispatch('initializeCalculator')
   },
   render: h => h(App)
 }).$mount('#app')
