@@ -2,18 +2,24 @@
   <section class="result">
     <table>
       <tr v-if="budget > 0">
-        <th>Budget</th>
-        <th>{{ budget | formatPrice }}</th>
+        <td class="name" colspan="2">Budget</td>
+        <td class="price"><b>{{ budget | formatPrice }}</b></td>
       </tr>
-      <tr v-for="position in positions" :key="position.id">
-        <td>{{ position.name }}</td>
-        <td>-{{ position.cost | formatPrice }}</td>
-      </tr>
+      <template v-for="positionGroup in positionGroups">
+        <tr v-for="(position, index) in getPositionsByGroup(positionGroup.id)" :key="position.id">
+          <td class="group" v-bind:class="{'new-group': displayGroupName(positionGroup.id, index)}">
+            <span v-if="displayGroupName(positionGroup.id, index)">{{ positionGroup.name }}</span>
+          </td>
+          <td class="name">{{ position.name }}</td>
+          <td class="price">-{{ position.cost | formatPrice }}</td>
+        </tr>
+      </template>
       <tr class="calc-result" v-bind:class="{'positive': result > 0, 'negative': result <0}">
-        <td>Result</td>
-        <td>
-          <span v-text="$options.filters.formatPrice(animatedResult)" v-if="enableAnimations"></span>
-          <span v-text="$options.filters.formatPrice(result)" v-else></span>
+        <td class="name" colspan="2">Result</td>
+        <td class="price" v-text="$options.filters.formatPrice(animatedResult)" v-if="enableAnimations"></td>
+        <td class="price" v-text="$options.filters.formatPrice(result)" v-else>-{{
+            position.cost | formatPrice
+          }}
         </td>
       </tr>
     </table>
@@ -31,8 +37,8 @@ export default {
     }
   },
   computed: {
-    positions () {
-      return this.$store.getters['positions/valid']
+    positionGroups () {
+      return this.$store.state.groups.items
     },
     budget () {
       return this.$store.state.budget
@@ -50,6 +56,18 @@ export default {
   beforeMount () {
     if (this.result) {
       this.tweenedResult = parseFloat(this.result)
+    }
+  },
+  methods: {
+    getPositionsByGroup (groupId) {
+      return this.$store.getters['positions/byGroup'](groupId)
+        .filter(position => position.name || position.cost)
+    },
+    groupHasPositions (groupId) {
+      return this.getPositionsByGroup(groupId).length > 0
+    },
+    displayGroupName (groupId, index) {
+      return groupId !== 'default' && index === 0
     }
   },
   watch: {
@@ -71,65 +89,71 @@ export default {
 .result {
   @extend .box;
   grid-area: result;
-  display: flex;
-  justify-content: center;
 }
+
+.group,
+.name {
+  text-align: left;
+}
+
+.price {
+  text-align: right;
+}
+
 table {
   border-collapse: collapse;
+  margin: 0 auto;
 
   tr {
+    &:last-of-type {
+      margin-bottom: $grid-size;
+    }
+
+    td {
+      padding: $grid-size / 4 $grid-size;
+
+      &.new-group {
+        border-top: 1px solid $dark-shade;
+      }
+
+      &.name,
+      &.price {
+        border-bottom: 1px solid $dark-shade;
+      }
+    }
+
     &:last-child {
-      td,
-      th {
+      td {
         border-bottom-width: 0;
       }
     }
+  }
+}
 
-    &.calc-result {
-      font-weight: 800;
-      font-size: 1.2em;
+.calc-result {
+  font-weight: 800;
+  font-size: 1.2em;
+  padding-bottom: 3px;
+  border-bottom: 3px double $dark-shade;
+  transition: border-bottom-color .5s ease-in-out;
 
-      td {
-        padding-bottom: 3px;
-        border-bottom: 3px double $dark-shade;
-        transition: color .5s ease-in-out, border-bottom-color .5s ease-in-out;
-      }
+  .price {
+    transition: color .5s ease-in-out;
+  }
 
-      &.positive {
-        td {
-          border-bottom-color: green;
+  &.positive {
+    border-bottom-color: green;
 
-          &:nth-child(2) {
-            color: green;
-          }
-        }
-      }
-
-      &.negative {
-        td {
-          border-bottom-color: red;
-
-          &:nth-child(2) {
-            color: red;
-          }
-        }
-      }
+    .price {
+      color: green;
     }
   }
 
-  td,
-  th {
-    border-bottom: 1px solid $dark-shade;
-    padding-top: $grid-size / 2;
-    padding-bottom: $grid-size / 2;
+  &.negative {
+    border-bottom-color: red;
 
-    &:nth-child(1) {
-      text-align: left;
-    }
-
-    &:nth-child(2) {
-      padding-left: $grid-size;
-      text-align: right;
+    .price {
+      color: red;
     }
   }
 }
