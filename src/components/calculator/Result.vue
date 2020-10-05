@@ -63,9 +63,6 @@ export default {
       return this.$store.getters['positions/byGroup'](groupId)
         .filter(position => position.name || position.cost)
     },
-    groupHasPositions (groupId) {
-      return this.getPositionsByGroup(groupId).length > 0
-    },
     displayGroupName (groupId, index) {
       return groupId !== 'default' && index === 0
     }
