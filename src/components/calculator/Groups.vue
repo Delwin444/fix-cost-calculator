@@ -73,8 +73,17 @@ export default {
       this.$store.commit('groups/updateSingle', group)
     },
     removePositionGroup (positionGroup) {
-      this.$store.commit('groups/remove', positionGroup)
-      this.$store.commit('positions/removeByGroup', positionGroup.id)
+      let confirmText = 'Do you really want to delete your group'
+
+      if (positionGroup.name) {
+        confirmText += ' "' + positionGroup.name + '"'
+      }
+      confirmText += '?'
+
+      if (confirm(confirmText)) {
+        this.$store.commit('groups/remove', positionGroup)
+        this.$store.commit('positions/removeByGroup', positionGroup.id)
+      }
     }
   }
 }
