@@ -4,4 +4,12 @@ $main-color: #4169e1;
 $dark-accent: #7c5874;
 $dark-shade: #1a1e33;
 
+$red: #d53342;
+
 $grid-size: 20px;
+
+$enable-transitions: true;
+$enable-prefers-reduced-motion-media-query: true;
+
+$transition-fade: opacity .15s linear;
+$transition-collapse: height .35s ease;
