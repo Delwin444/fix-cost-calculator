@@ -1,28 +1,38 @@
 <template>
   <section class="groups">
-    <transition-group :name="transitionType" tag="ul">
-      <li class="group" v-for="group in positionGroups" :key="group.id">
-        <template v-if="group.id !== 'default'">
-          <div class="group-controls">
-            <div>
-              <i class="icon-down" v-b-toggle="group.id">
-                <b-icon-chevron-down></b-icon-chevron-down>
+    <Draggable v-model="positionGroups"
+               handle=".group-handle"
+               v-bind="dragOptions"
+               group="groups"
+               @start="drag = true"
+               @end="drag = false">
+      <transition-group :name="transitionType" tag="ul">
+        <li class="group" v-for="group in positionGroups" :key="group.id">
+          <template v-if="group.id !== 'default'">
+            <div class="group-controls">
+              <div>
+                <i class="icon-down" v-b-toggle="group.id">
+                  <b-icon-chevron-down></b-icon-chevron-down>
+                </i>
+                <i class="icon-move group-handle">
+                  <b-icon-arrows-move></b-icon-arrows-move>
+                </i>
+                <input :value="group.name" @input="updateGroupName($event, group)"/>
+              </div>
+              <i class="icon-remove" @click="removePositionGroup(group)">
+                <b-icon-x></b-icon-x>
               </i>
-              <input :value="group.name" @input="updateGroupName($event, group)"/>
             </div>
-            <i class="icon-remove" @click="removePositionGroup(group)">
-              <b-icon-x></b-icon-x>
-            </i>
-          </div>
-          <b-collapse v-bind:id="group.id" visible class="mt-2">
+            <b-collapse v-bind:id="group.id" visible class="mt-2">
+              <Positions :group="group"/>
+            </b-collapse>
+          </template>
+          <template v-else>
             <Positions :group="group"/>
-          </b-collapse>
-        </template>
-        <template v-else>
-          <Positions :group="group"/>
-        </template>
-      </li>
-    </transition-group>
+          </template>
+        </li>
+      </transition-group>
+    </Draggable>
 
     <button @click="addPositionGroup">Add Group</button>
   </section>
@@ -30,14 +40,22 @@
 
 <script>
 import Positions from '@/components/calculator/Positions'
-import { BIconChevronDown, BIconX } from 'bootstrap-vue'
+import { BIconChevronDown, BIconX, BIconArrowsMove } from 'bootstrap-vue'
+import Draggable from 'vuedraggable'
 
 export default {
   name: 'Groups',
   components: {
     Positions,
     BIconChevronDown,
-    BIconX
+    BIconX,
+    BIconArrowsMove,
+    Draggable
+  },
+  data () {
+    return {
+      drag: false
+    }
   },
   computed: {
     positionGroups: {
@@ -49,7 +67,12 @@ export default {
       }
     },
     transitionType () {
-      return this.$store.state.enableAnimations ? 'list' : null
+      return this.$store.state.enableAnimations && this.drag ? 'list' : null
+    },
+    dragOptions () {
+      return {
+        animation: this.$store.state.enableAnimations ? 200 : 0
+      }
     }
   },
   watch: {
@@ -127,7 +150,7 @@ export default {
   border: 1px solid $dark-shade;
   transition: transform .2s ease-in-out;
   cursor: pointer;
-  margin-right: $grid-size;
+  margin-right: $grid-size / 2;
 
   &:hover {
     transform: rotate(30deg);
@@ -148,6 +171,12 @@ export default {
   svg {
     margin-top: 2px;
   }
+}
+
+.icon-move {
+  display: inline-block;
+  cursor: pointer;
+  margin-right: $grid-size;
 }
 
 .icon-remove {
