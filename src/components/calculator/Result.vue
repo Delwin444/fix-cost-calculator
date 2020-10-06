@@ -134,6 +134,10 @@ table {
   border-bottom: 3px double $dark-shade;
   transition: border-bottom-color .5s ease-in-out;
 
+  td {
+    border-top: 1px solid $dark-shade;
+  }
+
   .price {
     transition: color .5s ease-in-out;
   }
