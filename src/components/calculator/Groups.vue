@@ -67,7 +67,7 @@ export default {
       }
     },
     transitionType () {
-      return this.$store.state.enableAnimations && this.drag ? 'list' : null
+      return this.$store.state.enableAnimations && !this.drag ? 'list' : null
     },
     dragOptions () {
       return {
