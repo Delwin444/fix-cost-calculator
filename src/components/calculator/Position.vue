@@ -2,14 +2,24 @@
   <div class="position">
     <input type="text" class="name" placeholder="Position Name" :value="data.name" @input="updateName($event, data)"/>
     <input placeholder="Kosten" type="number" step=".01" :value="data.cost" @input="updateCost($event, data)"/>
-    <button @click="removePosition(data)">Remove</button>
-    <span class="handle"></span>
+    <i class="icon-remove" @click="removePosition(data)">
+      <b-icon-x></b-icon-x>
+    </i>
+    <i class="icon-move handle">
+      <b-icon-arrows-move></b-icon-arrows-move>
+    </i>
   </div>
 </template>
 
 <script>
+import { BIconX, BIconArrowsMove } from 'bootstrap-vue'
+
 export default {
   name: 'Position',
+  components: {
+    BIconX,
+    BIconArrowsMove
+  },
   props: {
     data: Object
   },
@@ -37,10 +47,8 @@ export default {
 <style scoped lang="scss">
 .handle {
   display: inline-block;
-  background: $dark-shade;
-  width: 20px;
-  height: 100%;
   cursor: move;
+  margin-top: 4px;
 }
 
 .position {
@@ -49,6 +57,34 @@ export default {
 
   > * {
     margin-left: $grid-size / 2;
+  }
+}
+
+.icon-remove {
+  border: 1px solid $red;
+  display: inline-block;
+  border-radius: 50%;
+  text-align: center;
+  width: 1.4em;
+  height: 1.4em;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color .2s ease-in-out, border-color .2s ease-in-out;
+
+  &:hover {
+    border-color: darken($red, 10%);
+    background-color: darken($red, 10%);
+
+    svg {
+      fill: white;
+    }
+  }
+
+  svg {
+    width: 1.4em;
+    height: 1.4em;
+    fill: $red;
+    transition: fill .2s ease-in-out;
   }
 }
 </style>

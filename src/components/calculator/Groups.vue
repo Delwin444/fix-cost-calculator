@@ -175,12 +175,12 @@ export default {
 
 .icon-move {
   display: inline-block;
-  cursor: pointer;
+  cursor: move;
   margin-right: $grid-size;
 }
 
 .icon-remove {
-  background: $red;
+  border: 1px solid $red;
   display: inline-block;
   border-radius: 50%;
   text-align: center;
@@ -188,16 +188,22 @@ export default {
   height: 1.4em;
   overflow: hidden;
   cursor: pointer;
-  transition: background-color .2s ease-in-out;
+  transition: background-color .2s ease-in-out, border-color .2s ease-in-out;
 
   &:hover {
-    background: darken($red, 10%)
+    border-color: darken($red, 10%);
+    background-color: darken($red, 10%);
+
+    svg {
+      fill: white;
+    }
   }
 
   svg {
     width: 1.4em;
     height: 1.4em;
-    fill: white;
+    fill: $red;
+    transition: fill .2s ease-in-out;
   }
 }
 </style>
