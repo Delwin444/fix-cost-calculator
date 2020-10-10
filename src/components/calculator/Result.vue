@@ -107,7 +107,11 @@ table {
     }
 
     td {
-      padding: $grid-size / 4 $grid-size;
+      padding: $grid-size / 4 $grid-size $grid-size / 4 0;
+
+      &:last-child {
+        padding-right: 0;
+      }
 
       &.new-group {
         border-top: 1px solid $dark-shade;
