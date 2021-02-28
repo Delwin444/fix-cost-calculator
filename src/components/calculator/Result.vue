@@ -14,13 +14,10 @@
           <td class="price">-{{ position.cost | formatPrice }}</td>
         </tr>
       </template>
-      <tr class="calc-result" v-bind:class="{'positive': result > 0, 'negative': result <0}">
+      <tr class="calc-result" v-bind:class="{'positive': result > 0, 'negative': result < 0}">
         <td class="name" colspan="2">Result</td>
         <td class="price" v-text="$options.filters.formatPrice(animatedResult)" v-if="enableAnimations"></td>
-        <td class="price" v-text="$options.filters.formatPrice(result)" v-else>-{{
-            position.cost | formatPrice
-          }}
-        </td>
+        <td class="price" v-text="$options.filters.formatPrice(result)" v-else></td>
       </tr>
     </table>
   </section>
