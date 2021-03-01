@@ -1,12 +1,12 @@
 <template>
   <div class="position">
+    <i class="icon-move handle">
+      <b-icon-arrows-move></b-icon-arrows-move>
+    </i>
     <input type="text" class="name" placeholder="Position Name" :value="data.name" @input="updateName($event, data)"/>
     <input placeholder="Kosten" type="number" step=".01" :value="data.cost" @input="updateCost($event, data)"/>
     <i class="icon-remove" @click="removePosition(data)">
       <b-icon-x></b-icon-x>
-    </i>
-    <i class="icon-move handle">
-      <b-icon-arrows-move></b-icon-arrows-move>
     </i>
   </div>
 </template>
@@ -57,6 +57,10 @@ export default {
 
   > * {
     margin-left: $grid-size / 2;
+
+    &:first-child {
+      margin-left: 0;
+    }
   }
 }
 
