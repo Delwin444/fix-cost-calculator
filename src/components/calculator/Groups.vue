@@ -17,7 +17,7 @@
                 <i class="icon-move group-handle">
                   <b-icon-arrows-move></b-icon-arrows-move>
                 </i>
-                <input :value="group.name" @input="updateGroupName($event, group)"/>
+                <input :value="group.name" @input="updateGroupName($event, group)" type="text"/>
               </div>
               <i class="icon-remove" @click="removePositionGroup(group)">
                 <b-icon-x></b-icon-x>
@@ -34,7 +34,7 @@
       </transition-group>
     </Draggable>
 
-    <button @click="addPositionGroup">Add Group</button>
+    <button class="add-group" @click="addPositionGroup">Add Group</button>
   </section>
 </template>
 
@@ -115,6 +115,7 @@ export default {
 <style scoped lang="scss">
 @import "node_modules/bootstrap/scss/mixins/_transition.scss";
 @import "node_modules/bootstrap/scss/_transitions.scss";
+@import "componentStyles/buttons.scss";
 
 .group {
   padding-bottom: $grid-size;
@@ -205,5 +206,9 @@ export default {
     fill: $red;
     transition: fill .2s ease-in-out;
   }
+}
+
+.add-group {
+  @extend .btn--full-width;
 }
 </style>

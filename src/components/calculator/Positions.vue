@@ -70,6 +70,7 @@ export default {
 
 <style scoped lang="scss">
 @import "componentStyles/box.scss";
+@import "componentStyles/buttons.scss";
 
 ul {
   margin-bottom: $grid-size / 2;
@@ -115,18 +116,6 @@ li {
 }
 
 .add-position {
-  display: block;
-  width: 100%;
-  background: transparent;
-  border: 1px dashed $dark-accent;
-  padding: $grid-size / 2 0;
-  border-radius: $grid-size / 2;
-  cursor: pointer;
-  transition: background-color ease-in-out .2s;
-  margin-bottom: $grid-size / 2;
-
-  &:hover {
-    background: rgba(0, 0, 0, .1);
-  }
+  @extend .btn--full-width;
 }
 </style>

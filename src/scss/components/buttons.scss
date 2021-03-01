@@ -1,0 +1,19 @@
+.btn--full-width {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px dashed $dark-accent;
+  padding: $grid-size / 2 0;
+  border-radius: $grid-size / 2;
+  cursor: pointer;
+  transition: background-color ease-in-out .2s;
+  margin-bottom: $grid-size / 2;
+  
+  &:hover {
+    background: rgba(0, 0, 0, .1);
+  }
+
+  &:focus, &:active {
+    outline: none;
+  }
+}
