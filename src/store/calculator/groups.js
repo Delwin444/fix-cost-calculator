@@ -20,7 +20,7 @@ export const groups = {
     add (state) {
       state.items.push({
         id: Math.random().toString(36).substr(2, 9),
-        name: ''
+        name: 'Group ' + state.items.length
       })
     },
     update (state, groups) {
