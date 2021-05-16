@@ -46,7 +46,7 @@ export default new Vuex.Store({
       commit('groups/initialize')
 
       if (localStorage.getItem('budget')) {
-        state.budget = JSON.parse(localStorage.getItem('budget'))
+        commit('updateBudget', JSON.parse(localStorage.getItem('budget')))
       }
     }
   },
