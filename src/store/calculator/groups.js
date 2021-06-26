@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import { positions } from './positions'
 
 Vue.use(Vuex)
 
@@ -10,6 +11,14 @@ export const groups = {
       name: 'default',
       id: 'default'
     }]
+  },
+  getters: {
+    getGroupById: (state) => (groupId) => {
+      return state.items.filter(group => group.id === groupId)
+    },
+    isGroupEmpty: (state, getters) => (groupId) => {
+      return getters['positions/byGroup'](groupId).length === 0
+    }
   },
   mutations: {
     initialize (state) {
@@ -32,5 +41,8 @@ export const groups = {
     remove (state, group) {
       state.items.splice(state.items.indexOf(group), 1)
     }
+  },
+  modules: {
+    positions
   }
 }

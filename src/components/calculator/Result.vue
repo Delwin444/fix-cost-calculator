@@ -38,7 +38,7 @@ export default {
       return this.$store.state.groups.items
     },
     budget () {
-      return this.$store.state.budget
+      return this.$store.state.controls.budget
     },
     result () {
       return this.$store.getters.result

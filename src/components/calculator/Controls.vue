@@ -30,18 +30,18 @@ export default {
   computed: {
     enableAnimations: {
       get () {
-        return this.$store.state.enableAnimations
+        return this.$store.state.controls.enableAnimations
       },
       set (value) {
-        this.$store.commit('updateEnableAnimations', value)
+        this.$store.commit('controls/updateEnableAnimations', value)
       }
     },
     budget: {
       get () {
-        return this.$store.state.budget
+        return this.$store.state.controls.budget
       },
       set (value) {
-        this.$store.commit('updateBudget', value)
+        this.$store.commit('controls/updateBudget', value)
       }
     }
   }

@@ -9,7 +9,7 @@ export const positions = {
     items: []
   },
   getters: {
-    valid: state => {
+    valid: (state) => {
       return state.items.filter(position => !isNaN(position.cost))
     },
     byGroup: (state) => (targetGroup) => {

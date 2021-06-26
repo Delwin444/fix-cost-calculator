@@ -13,7 +13,7 @@ export default {
       const exportData = {
         positions: this.$store.getters['positions/valid'],
         groups: this.$store.state.groups.items,
-        budget: this.$store.state.budget,
+        budget: this.$store.state.controls.budget.budget,
         settings: {
           enableAnimations: this.$store.state.enableAnimations
         }

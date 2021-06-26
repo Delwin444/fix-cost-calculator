@@ -55,8 +55,8 @@ export default {
 
           self.$store.commit('groups/update', importData.groups)
           self.$store.commit('positions/update', importData.positions)
-          self.$store.commit('updateEnableAnimations', importData.settings.enableAnimations)
-          self.$store.commit('updateBudget', importData.budget)
+          self.$store.commit('controls/updateEnableAnimations', importData.settings.enableAnimations)
+          self.$store.commit('controls/updateBudget', importData.budget)
         })
 
         fileReader.readAsText(file)
