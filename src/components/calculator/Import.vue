@@ -18,8 +18,7 @@ export default {
       const requiredImportDataKeys = [
         'groups',
         'positions',
-        'settings',
-        'budget'
+        'settings'
       ]
       pseudoImportNode.type = 'file'
       pseudoImportNode.accept = '.json'
@@ -56,7 +55,7 @@ export default {
           self.$store.commit('groups/update', importData.groups)
           self.$store.commit('positions/update', importData.positions)
           self.$store.commit('controls/updateEnableAnimations', importData.settings.enableAnimations)
-          self.$store.commit('controls/updateBudget', importData.budget)
+          self.$store.commit('controls/updateBudget', importData.settings.budget)
         })
 
         fileReader.readAsText(file)
