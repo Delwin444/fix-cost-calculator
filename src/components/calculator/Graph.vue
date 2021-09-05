@@ -38,7 +38,7 @@ export default {
       return this.$store.getters['charts/getAllPositionsChartData']
     },
     enableAnimations () {
-      return this.$store.state.enableAnimations
+      return this.$store.state.controls.enableAnimations
     },
     groups () {
       return this.$store.state.groups.items

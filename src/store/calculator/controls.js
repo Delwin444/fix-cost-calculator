@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export const controls = {
   namespaced: true,
   state: {
-    budget: 0
+    budget: 0,
+    enableAnimations: true
   },
   getters: {
     availableBudget: (state, getters) => {

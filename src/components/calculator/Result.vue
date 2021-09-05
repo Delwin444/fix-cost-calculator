@@ -47,7 +47,7 @@ export default {
       return this.enableAnimations ? this.tweenedResult : 0
     },
     enableAnimations () {
-      return this.$store.state.enableAnimations
+      return this.$store.state.controls.enableAnimations
     }
   },
   beforeMount () {

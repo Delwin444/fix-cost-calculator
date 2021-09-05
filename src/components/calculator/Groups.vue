@@ -67,11 +67,11 @@ export default {
       }
     },
     transitionType () {
-      return this.$store.state.enableAnimations && !this.drag ? 'list' : null
+      return this.$store.state.controls.enableAnimations && !this.drag ? 'list' : null
     },
     dragOptions () {
       return {
-        animation: this.$store.state.enableAnimations ? 200 : 0
+        animation: this.$store.state.controls.enableAnimations ? 200 : 0
       }
     }
   },
