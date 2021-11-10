@@ -22,7 +22,7 @@ export const groups = {
   },
   mutations: {
     initialize (state) {
-      if (localStorage.getItem('positionGroups')) {
+      if (localStorage.getItem('positionGroups') !== 'undefined') {
         state.items = JSON.parse(localStorage.getItem('positionGroups'))
       }
     },

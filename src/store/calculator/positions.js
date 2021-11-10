@@ -18,7 +18,7 @@ export const positions = {
   },
   mutations: {
     initialize (state) {
-      if (localStorage.getItem('positions')) {
+      if (localStorage.getItem('positions') !== 'undefined') {
         state.items = JSON.parse(localStorage.getItem('positions'))
       }
     },
