@@ -4,15 +4,16 @@
       <GChart
         type="PieChart"
         :data="chartData"
-        :options="chartOptions"/>
+        :options="chartOptions()"/>
     </div>
-    <div v-for="group in groups" :key="group.id">
-      <GChart
-        type="PieChart"
-        v-if="!isGroupEmpty(group.id)"
-        :data="getChartDataByGroup(group.id)"
-        :options="chartOptions"/>
-    </div>
+    <template v-for="group in groups">
+      <div class="graph" :value="group" :key="group.id" v-if="!isGroupEmpty(group.id)">
+        <GChart
+          type="PieChart"
+          :data="getChartDataByGroup(group.id)"
+          :options="chartOptions(group.name)"/>
+      </div>
+    </template>
   </section>
 </template>
 
@@ -22,17 +23,6 @@ import GChart from 'vue-google-charts'
 export default {
   name: 'Graph',
   comments: { GChart },
-  data: () => {
-    return {
-      chartOptions: {
-        title: 'Costs',
-        is3D: true,
-        width: 700,
-        height: 400,
-        backgroundColor: 'transparent'
-      }
-    }
-  },
   computed: {
     chartData () {
       return this.$store.getters['charts/getAllPositionsChartData']
@@ -55,6 +45,15 @@ export default {
     },
     getChartDataByGroup (groupId) {
       return this.$store.getters['charts/getChartDataByGroup'](groupId)
+    },
+    chartOptions (groupName = 'Costs') {
+      return {
+        title: groupName,
+        is3D: true,
+        width: 500,
+        height: 300,
+        backgroundColor: 'transparent'
+      }
     }
   }
 }
@@ -66,5 +65,17 @@ export default {
 .graphs {
   @extend .box;
   grid-area: graph;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.graph {
+  width: 50%;
+}
+
+@media screen and (min-width: 1260px) {
+  .graph {
+    width: 33%;
+  }
 }
 </style>
