@@ -10,7 +10,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   getters: {
     result: (state, getters) => {
-      return controls.state.budget - getters['positions/valid']
+      return state.controls.budget - getters['positions/valid']
         .reduce((accumulator, currentValue) => accumulator - -currentValue.cost, 0)
         .toFixed(2)
     }
