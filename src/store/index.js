@@ -20,7 +20,7 @@ export default new Vuex.Store({
       commit('positions/initialize')
       commit('groups/initialize')
 
-      if (localStorage.getItem('budget') !== 'undefined') {
+      if (localStorage.getItem('budget') !== null) {
         commit('controls/updateBudget', JSON.parse(localStorage.getItem('budget')))
       }
     }
