@@ -7,7 +7,7 @@
         :options="chartOptions()"/>
     </div>
     <template v-for="group in groups">
-      <div class="graph" :value="group" :key="group.id" v-if="!isGroupEmpty(group.id)">
+      <div class="graph" :key="group.id" v-if="!isGroupEmpty(group.id)">
         <GChart
           type="PieChart"
           :data="getChartDataByGroup(group.id)"
