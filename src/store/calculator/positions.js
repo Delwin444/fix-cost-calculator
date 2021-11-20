@@ -54,13 +54,14 @@ export const positions = {
         }
       })
 
+      let statePositions = getters.byGroup(data.groupId)
       data.positions.forEach((position, index) => {
-        const statePositions = getters.byGroup(data.groupId)
         if (position.id !== statePositions[index].id) {
           const oldIndex = state.items.indexOf(position)
           const newIndex = state.items.indexOf(statePositions[index])
 
           commit('swap', { oldIndex, newIndex })
+          statePositions = getters.byGroup(data.groupId)
         }
       })
     }
