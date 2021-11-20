@@ -26,6 +26,12 @@ export const positions = {
       position.id = position.id || Math.random().toString(36).substr(2, 9)
       state.items.push(position)
     },
+    swap (state, { oldIndex, newIndex }) {
+      const temp = state.items[newIndex]
+
+      Vue.set(state.items, newIndex, state.items[oldIndex])
+      Vue.set(state.items, oldIndex, temp)
+    },
     update (state, positions) {
       state.items = positions
     },
@@ -40,14 +46,22 @@ export const positions = {
     }
   },
   actions: {
-    updateGroupedPositions ({ commit, state }, data) {
-      commit('removeByGroup', data.groupId)
+    updateGroupedPositions ({ commit, state, getters }, data) {
       data.positions.forEach(position => {
-        position.group = data.groupId
-        if (state.items.indexOf(position) > -1) {
-          commit('remove', position)
+        if (position.group !== data.groupId) {
+          position.group = data.groupId
+          commit('updateSingle', position)
         }
-        commit('add', position)
+      })
+
+      data.positions.forEach((position, index) => {
+        const statePositions = getters.byGroup(data.groupId)
+        if (position.id !== statePositions[index].id) {
+          const oldIndex = state.items.indexOf(position)
+          const newIndex = state.items.indexOf(statePositions[index])
+
+          commit('swap', { oldIndex, newIndex })
+        }
       })
     }
   }
